@@ -25,7 +25,7 @@ module DependentProtect
       reflection = create_reflection(:has_many, association_id, options, self)
 
       if reflection.options[:dependent] == :protect
-        module_eval "before_destroy 'raise ActiveRecord::ReferentialIntegrityProtectionError, \"Can\\'t destroy because there\\'s at least one #{reflection.class_name} in this #{self.class_name}\" if self.#{reflection.name}.find(:first)'"
+        module_eval "before_destroy 'raise ActiveRecord::ReferentialIntegrityProtectionError, \"Can\\'t destroy because there\\'s at least one #{reflection.class} in this #{self.class}\" if self.#{reflection.name}.find(:first)'"
         options = options.clone
         options.delete(:dependent)
       end
@@ -41,7 +41,7 @@ module DependentProtect
       reflection = create_reflection(:has_one, association_id, options, self)
 
       if reflection.options[:dependent] == :protect
-        module_eval "before_destroy 'raise ActiveRecord::ReferentialIntegrityProtectionError, \"Can\\'t destroy because there\\'s a #{reflection.class_name} in this #{self.class_name}\" if self.#{reflection.name}'"
+        module_eval "before_destroy 'raise ActiveRecord::ReferentialIntegrityProtectionError, \"Can\\'t destroy because there\\'s a #{reflection.class} in this #{self.class}\" if self.#{reflection.name}'"
         options = options.clone
         options.delete(:dependent)
       end
@@ -57,7 +57,7 @@ module DependentProtect
       reflection = create_reflection(:belongs_to, association_id, options, self)
 
       if reflection.options[:dependent] == :protect
-        module_eval "before_destroy 'raise ActiveRecord::ReferentialIntegrityProtectionError, \"Can\\'t destroy because there\\'s a #{reflection.class_name} in this #{self.class_name}\" if self.#{reflection.name}'"
+        module_eval "before_destroy 'raise ActiveRecord::ReferentialIntegrityProtectionError, \"Can\\'t destroy because there\\'s a #{reflection.class} in this #{self.class}\" if self.#{reflection.name}'"
         options = options.clone
         options.delete(:dependent)
       end
